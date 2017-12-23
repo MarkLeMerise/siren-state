@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "plugins": [
+            {
+                "ignoreDefinitionFiles": true,
+                "name": "tslint-language-service"
+            }
+        ],
+        "experimentalDecorators": true,
+        "inlineSources": true,
+        "lib": [
+            "dom",
+            "es2015",
+            "es2016.array.include",
+            "es2017.object"
+        ],
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "target": "es6"
+    }
+}
