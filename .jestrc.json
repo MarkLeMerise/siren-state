@@ -1,16 +1,25 @@
 {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "setupFiles": [
-      "./.setup-jest.js"
-    ],
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testMatch": [
-      "**/__tests__/*.(ts|tsx)"
-    ]
+  "coverageDirectory": "./coverage",
+  "collectCoverageFrom": [
+    "**/*.ts",
+    "!**/I*.ts",
+    "!**/node_modules/**",
+    "!**/vendor/**",
+    "!src/siren-spec/Siren.ts"
+  ],
+  "mapCoverage": true,
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js"
+  ],
+  "setupFiles": [
+    "./.setup-jest.js"
+  ],
+  "transform": {
+    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "testMatch": [
+    "**/__tests__/*.(ts|tsx)"
+  ]
 }

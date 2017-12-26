@@ -1,7 +1,9 @@
-import { IEntityIndexer } from './entityIndexer';
-import { ISirenModelRegistry } from './SirenModelRegistry';
+import { ISirenModelRegistry } from './registration/ISirenModelRegistry';
+import { IEntityIndexer } from './store/EntityIndexer';
+import { ISirenModelStore } from './store/ISirenModelStore';
 
 export interface ISirenStateAtom {
-    domain: ISirenModelRegistry;
-    bookkeeping: IEntityIndexer;
+	bookkeeping: IEntityIndexer;
+	registry: ISirenModelRegistry;
+	store: ISirenModelStore;
 }

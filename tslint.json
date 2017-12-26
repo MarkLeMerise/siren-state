@@ -1,6 +1,11 @@
 {
-    "extends": ["tslint:recommended"],
-    "rules": {
-        "quotemark": [true, "single"]
-    }
+	"extends": ["tslint:recommended"],
+	"rules": {
+		"arrow-parens": false,
+		"indent": [true, "tabs"],
+		"max-line-length": [true, 150],
+		"no-namespace": [true, "allow-declarations"],
+		"quotemark": [true, "single"],
+		"trailing-comma": false
+	}
 }
