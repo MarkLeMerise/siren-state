@@ -1,9 +1,11 @@
+jest.mock('loglevel');
+
+import * as log from 'loglevel';
+import { ISirenModel } from '../../model/ISirenModel';
 import { SirenModel } from '../../model/SirenModel';
 import { SirenModelRegistry } from '../../registration/SirenModelRegistry';
-import { ISirenModelRegistry } from '../ISirenModelRegistry';
-import { noop } from 'lodash';
 import { ISirenModelConstructor } from '../ISirenModelConstructor';
-import { ISirenModel } from '../../model/ISirenModel';
+import { ISirenModelRegistry } from '../ISirenModelRegistry';
 
 describe(SirenModelRegistry.name, () => {
 	let registry: ISirenModelRegistry;
@@ -58,9 +60,10 @@ describe(SirenModelRegistry.name, () => {
 	});
 
 	describe('Finding a model\'s dependents', () => {
+		// tslint:disable:max-classes-per-file
 		class Type1 extends SirenModel {}
 		class Type2 extends SirenModel {}
-		let dependents: ISirenModelConstructor<ISirenModel>[];
+		let dependents: Array<ISirenModelConstructor<ISirenModel>>;
 
 		describe('And both dependecy & dependent has been registered', () => {
 			beforeEach(() => {
@@ -79,12 +82,11 @@ describe(SirenModelRegistry.name, () => {
 			beforeEach(() => {
 				registry.registerModel(Type1.name, Type1);
 				registry.createDependency(chance.word(), Type1, Type2);
-				jest.spyOn(console, 'info').mockImplementation(noop);
 				dependents = registry.findDependents(Type2);
 			});
 
 			it('should inform the consumer that though it may not affect anything, this particular model is not registered', () => {
-				expect(console.info).toHaveBeenCalled();
+				expect(log.info).toHaveBeenCalled();
 			});
 
 			it('should still return dependent model definitions', () => {
@@ -96,12 +98,11 @@ describe(SirenModelRegistry.name, () => {
 			beforeEach(() => {
 				registry.registerModel(Type2.name, Type2);
 				registry.createDependency(chance.word(), Type1, Type2);
-				jest.spyOn(console, 'warn').mockImplementation(noop);
 				dependents = registry.findDependents(Type2);
 			});
 
 			it('should log a warning', () => {
-				expect(console.warn).toHaveBeenCalled();
+				expect(log.warn).toHaveBeenCalled();
 			});
 
 			it('cannot return the dependent because the dependent is not registered', () => {

@@ -1,9 +1,9 @@
-import actionCreatorFactory, { IActionCreatorsFactory } from "./src/actions/actionCreatorFactory";
-import modelRegistrationFactory, { ISirenModelRegistrar } from "./src/registration/modelRegistrationFactory";
-import { ISirenStateAtom } from "./src/ISirenStateAtom";
-import EntityIndexer from "./src/store/EntityIndexer";
-import { SirenModelRegistry } from "./src/registration/SirenModelRegistry";
-import { SirenModelStore } from "./src/store/SirenModelStore";
+import actionCreatorFactory, { IActionCreatorsFactory } from './src/actions/actionCreatorFactory';
+import { ISirenStateAtom } from './src/ISirenStateAtom';
+import modelRegistrationFactory, { ISirenModelRegistrar } from './src/registration/modelRegistrationFactory';
+import { SirenModelRegistry } from './src/registration/SirenModelRegistry';
+import EntityIndexer from './src/store/EntityIndexer';
+import { SirenModelStore } from './src/store/SirenModelStore';
 
 export interface ISirenState {
 	actionCreator: IActionCreatorsFactory;
@@ -20,7 +20,7 @@ export function createSirenStateAtom(): ISirenStateAtom {
 }
 
 export default (stateAtom: ISirenStateAtom = createSirenStateAtom()): ISirenState => ({
-	actionCreator: actionCreatorFactory(stateAtom),
 	SirenModel: modelRegistrationFactory(stateAtom),
+	actionCreator: actionCreatorFactory(stateAtom),
 	state: stateAtom
 });

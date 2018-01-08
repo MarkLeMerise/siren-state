@@ -1,5 +1,5 @@
-import getSelfLinkHref from "../getSelfLinkHref";
-import generateSelfLink from "../../../test-util/generateSelfLink";
+import generateSelfLink from '../../../test-util/generateSelfLink';
+import getSelfLinkHref from '../getSelfLinkHref';
 
 describe(getSelfLinkHref.name, () => {
 	let entity: Siren.IEntity;
@@ -29,8 +29,8 @@ describe(getSelfLinkHref.name, () => {
 		describe('And they do not contain a self-link', () => {
 			beforeEach(() => {
 				entity.links!.push({
-					rel: [chance.word({ length: 5 })],
-					href: chance.url()
+					href: chance.url(),
+					rel: [chance.word({ length: 5 })]
 				});
 			});
 

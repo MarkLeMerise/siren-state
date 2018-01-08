@@ -31,4 +31,4 @@ export default class EntityIndexer<T = string> implements IEntityIndexer<T> {
 	public indexEntity(key: string, value: T) {
 		this.index[key] = value;
 	}
-};
+}

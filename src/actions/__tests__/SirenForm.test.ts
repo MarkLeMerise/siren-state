@@ -8,7 +8,7 @@ interface IPerson extends ISirenFormFieldSet {
 	color: string;
 	name: string;
 	weight: number | null;
-};
+}
 
 interface IExtendedPerson extends IPerson {
 	address: { street: string };

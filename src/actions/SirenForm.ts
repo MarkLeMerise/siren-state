@@ -61,7 +61,7 @@ export default class SirenForm<T extends ISirenFormFieldSet = {}> implements ISi
 	 * Serializes the field values using either FormData for File objects, or a POJO otherwise
 	 */
 	public serialize() {
-		let serializedFields = this.onSerialize(this.fields);
+		const serializedFields = this.onSerialize(this.fields);
 
 		if (hasFileField(serializedFields)) {
 			return Object.keys(serializedFields).reduce((form, key) => {

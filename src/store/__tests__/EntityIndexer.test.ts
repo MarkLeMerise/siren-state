@@ -1,4 +1,4 @@
-import EntityIndexer, { IEntityIndexer } from "../EntityIndexer";
+import EntityIndexer, { IEntityIndexer } from '../EntityIndexer';
 
 describe(EntityIndexer.name, () => {
 	let indexer: IEntityIndexer<string>;

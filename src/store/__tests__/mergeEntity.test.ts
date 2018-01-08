@@ -1,10 +1,13 @@
+jest.mock('loglevel');
+
 import { noop } from 'lodash';
+import * as log from 'loglevel';
 import sirenStateFactory, { ISirenState } from '../../../index';
 import generateEntity from '../../../test-util/generateEntity';
 import generateSelfLink from '../../../test-util/generateSelfLink';
+import { ISirenStateAtom } from '../../ISirenStateAtom';
 import { SirenModel } from '../../model/SirenModel';
 import mergeEntity from '../mergeEntity';
-import { ISirenStateAtom } from '../../ISirenStateAtom';
 
 describe(mergeEntity.name, () => {
 	class MySirenModel extends SirenModel {}
@@ -17,7 +20,7 @@ describe(mergeEntity.name, () => {
 
 	describe('Merging an entity with a single matching Siren class definition', () => {
 		beforeEach(() => {
-			let sirenClass = chance.word();
+			const sirenClass = chance.word();
 			sirenState.SirenModel({ sirenClass })(MySirenModel);
 
 			entity = {
@@ -49,8 +52,8 @@ describe(mergeEntity.name, () => {
 		class MyOtherSirenModel extends SirenModel {}
 
 		beforeEach(() => {
-			let sirenClass1 = chance.word();
-			let sirenClass2 = chance.word();
+			const sirenClass1 = chance.word();
+			const sirenClass2 = chance.word();
 			sirenState.SirenModel({ sirenClass: sirenClass1 })(MySirenModel);
 			sirenState.SirenModel({ sirenClass: sirenClass2 })(MyOtherSirenModel);
 
@@ -59,7 +62,6 @@ describe(mergeEntity.name, () => {
 				links: [generateSelfLink()],
 			};
 
-			jest.spyOn(console, 'info').mockImplementation(noop);
 			mergeEntity(entity, sirenState.state);
 		});
 
@@ -72,7 +74,7 @@ describe(mergeEntity.name, () => {
 		});
 
 		it('should issue a warning about matching multiple types', () => {
-			expect(console.info).toHaveBeenCalled();
+			expect(log.info).toHaveBeenCalled();
 		});
 	});
 
@@ -83,12 +85,11 @@ describe(mergeEntity.name, () => {
 				links: [generateSelfLink()],
 			};
 
-			jest.spyOn(console, 'info').mockImplementation(noop);
 			mergeEntity(entity, sirenState.state);
 		});
 
 		it('should log a message that no matching definition can be found', () => {
-			expect(console.info).toHaveBeenCalled();
+			expect(log.info).toHaveBeenCalled();
 		});
 
 		it('should still merge the entity into the store', () => {
@@ -97,6 +98,7 @@ describe(mergeEntity.name, () => {
 	});
 
 	describe('Merging an entity with a registered model graph', () => {
+		// tslint:disable:max-classes-per-file
 		class Item extends SirenModel {}
 		class OtherItem extends SirenModel {}
 		class Collection extends SirenModel {}

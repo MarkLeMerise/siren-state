@@ -1,4 +1,5 @@
 import { Graph } from 'graphlib';
+import * as log from 'loglevel';
 import { ISirenModel } from '../model/ISirenModel';
 import { ISirenModelConstructor } from './ISirenModelConstructor';
 import { ISirenModelRegistry } from './ISirenModelRegistry';
@@ -17,7 +18,7 @@ export class SirenModelRegistry implements ISirenModelRegistry {
 
 	public findDependents(Dependency: ISirenModelConstructor<ISirenModel>) {
 		if (!this.hasModelRegistered(Dependency)) {
-			console.info(`Registry is missing registration for model "${ Dependency.name }. `
+			log.info(`Registry is missing registration for model "${ Dependency.name }. `
 				+ 'Please ensure you have added a @SirenModel annotation to this class.');
 		}
 
@@ -52,7 +53,7 @@ export class SirenModelRegistry implements ISirenModelRegistry {
 		const model = Object.values(this.registeredModels).find(m => m.name === name);
 
 		if (!model) {
-			console.warn(`Registry is missing registration for model "${ name }. `
+			log.warn(`Registry is missing registration for model "${ name }. `
 			+ 'Please ensure you have added a @SirenModel annotation to this class.');
 		}
 

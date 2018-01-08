@@ -1,6 +1,6 @@
-import { SirenModel } from "../SirenModel";
-import { ISirenStateAtom } from "../../ISirenStateAtom";
-import generateSelfLink from "../../../test-util/generateSelfLink";
+import generateSelfLink from '../../../test-util/generateSelfLink';
+import { ISirenStateAtom } from '../../ISirenStateAtom';
+import { SirenModel } from '../SirenModel';
 
 describe(SirenModel.name, () => {
 	interface IPersonProps {
@@ -20,16 +20,16 @@ describe(SirenModel.name, () => {
 	}
 
 	class Person extends SirenModel<IPersonProps, ISirenPersonProps> {
+		public onFromEntity(state?: ISirenStateAtom) {
+			return this;
+		}
+
 		protected onTransformProperties(incoming: Partial<ISirenPersonProps>) {
 			return {
 				age: incoming.age,
 				birthday: incoming.birthday ? new Date(incoming.birthday) : null,
 				weightInStone: incoming.weight!.kg ? incoming.weight!.kg / 6.35029 : 0
 			};
-		}
-
-		public onFromEntity(state?: ISirenStateAtom) {
-			return this;
 		}
 	}
 

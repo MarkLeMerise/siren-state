@@ -1,6 +1,8 @@
 jest.mock('../../store/mergeEntity');
+jest.mock('loglevel');
 
 import { identity, noop } from 'lodash';
+import * as log from 'loglevel';
 import { stringify } from 'query-string';
 import { createSirenStateAtom } from '../../../index';
 import { ISirenStateAtom } from '../../ISirenStateAtom';
@@ -16,7 +18,7 @@ interface IJestFetchMockParams {
 	status?: number;
 	statusText?: string;
 	url?: string;
-	headers?: Object;
+	headers?: object;
 }
 
 interface IJestFetchMockFactory<T extends typeof fetch> {
@@ -239,7 +241,6 @@ describe(actionCreatorFactory.name, () => {
 		}>;
 		let body: Siren.IEntity;
 		let selfLinkHref: string;
-		let consoleSpy: jest.Mock;
 
 		beforeEach(() => {
 			form = new SirenForm({
@@ -250,7 +251,6 @@ describe(actionCreatorFactory.name, () => {
 			});
 
 			selfLinkHref = chance.url();
-			consoleSpy = jest.spyOn(console, 'warn').mockImplementation(noop);
 
 			body = {
 				class: [chance.word()],
@@ -275,8 +275,8 @@ describe(actionCreatorFactory.name, () => {
 			expect(getRequest().headers.get('Content-Type')).toBe(MULTIPART_CONTENT_TYPE);
 		});
 
-		it('should console.warn the consumer about the "Content-Type" mismatch', () => {
-			expect(consoleSpy).toHaveBeenCalled();
+		it('should log a warning for the consumer about the "Content-Type" mismatch', () => {
+			expect(log.warn).toHaveBeenCalled();
 		});
 
 		it('should not append any query string (including "?") into the URL', () => {

@@ -1,4 +1,5 @@
 import { flatMap, head, uniq } from 'lodash';
+import * as log from 'loglevel';
 import { ISirenStateAtom } from '../ISirenStateAtom';
 import { ISirenModel } from '../model/ISirenModel';
 import { SirenModel } from '../model/SirenModel';
@@ -19,7 +20,7 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
 	);
 
 	if (ModelTypes.length > 1) {
-		console.info('There are multiple registered types matching the incoming Siren classes. '
+		log.info('There are multiple registered types matching the incoming Siren classes. '
 			+ 'The first matching type will be used.');
 	}
 
@@ -30,7 +31,7 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
 		visited.push(...registry.findDependents(DomainType)); // Deliberately mutate the array inline
 	} else {
 		store.storeModel(new SirenModel(entity, stateAtom));
-		console.info('There is no matching domain model definition for this Siren response. '
+		log.info('There is no matching domain model definition for this Siren response. '
 		+ 'The entity will still be saved as a `SirenModel` and accessible by its self-link.', { class: entity.class });
 	}
 }
@@ -55,4 +56,4 @@ export default function mergeEntity(initialEntity: Siren.IEntity, stateAtom: ISi
 	flatMap(uniq(visitedTypes).map(Type => stateAtom.store.getModelByType(Type)))
 		.map(model => model.onFromEntity(stateAtom))
 		.forEach(model => stateAtom.store.storeModel(model));
-};
+}

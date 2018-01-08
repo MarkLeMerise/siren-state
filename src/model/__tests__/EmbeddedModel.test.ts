@@ -1,6 +1,6 @@
-import EmbeddedModel from "../EmbeddedModel";
-import { SirenModel } from "../SirenModel";
-import { ISirenModel } from "../ISirenModel";
+import EmbeddedModel from '../EmbeddedModel';
+import { ISirenModel } from '../ISirenModel';
+import { SirenModel } from '../SirenModel';
 
 describe(EmbeddedModel.name, () => {
 	describe('Constructing an EmbeddedModel with a particular "rel"', () => {

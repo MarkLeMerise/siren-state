@@ -1,4 +1,5 @@
 import { identity, isFunction, noop } from 'lodash';
+import * as log from 'loglevel';
 import { stringify } from 'query-string';
 import { ISirenStateAtom } from '../ISirenStateAtom';
 import { EHttpVerb } from '../siren-spec/EHttpVerb';
@@ -28,7 +29,7 @@ export default (stateAtom: ISirenStateAtom) =>
 			const body = form.serialize();
 			let url = form.href;
 
-			let init: RequestInit = {
+			const init: RequestInit = {
 				headers: new Headers({ Accept: SIREN_CONTENT_TYPE }),
 				method: form.method,
 			};
@@ -46,7 +47,7 @@ export default (stateAtom: ISirenStateAtom) =>
 					init.body = body;
 
 					if (form.type !== MULTIPART_CONTENT_TYPE) {
-						console.warn('Requests with FormData should be sent with the ' +
+						log.warn('Requests with FormData should be sent with the ' +
 						`"${ MULTIPART_CONTENT_TYPE }" Content-Type header. It will be automatically converted.`);
 						contentType = MULTIPART_CONTENT_TYPE;
 					}

@@ -13,6 +13,7 @@ describe(SirenModel.name, () => {
 	});
 
 	describe('Registering a SirenModel', () => {
+		// tslint:disable:max-classes-per-file
 		class FakeClass extends SirenModel {}
 		class FakeSubentityClass extends SirenModel {}
 

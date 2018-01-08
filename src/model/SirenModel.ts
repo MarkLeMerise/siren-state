@@ -27,19 +27,6 @@ export class SirenModel<T = {}, P = T> implements ISirenModel<T> {
 	}
 
 	/**
-	 * Lifecycle hook that MAY be overridden by subclasses to apply transforms to properties.
-	 * For example, transforming a UTC date string into a JavaScript `Date` object.
-	 *
-	 * This method SHOULD be pure.
-	 *
-	 * @param incomingProps The updated properties
-	 * @returns A new object containing the transformed props
-	 */
-	protected onTransformProperties(incomingProps: P): Partial<T> {
-		return incomingProps as Partial<T>;
-	}
-
-	/**
 	 * Lifecycle hook that MAY be overridden by subclasses to choose how entities are processed
 	 * This method is called when new versions of this entity are merged and when its dependent models change.
 	 *
@@ -52,6 +39,19 @@ export class SirenModel<T = {}, P = T> implements ISirenModel<T> {
 	 */
 	public onFromEntity(stateAtom?: ISirenStateAtom): SirenModel<T, P> {
 		return this;
+	}
+
+	/**
+	 * Lifecycle hook that MAY be overridden by subclasses to apply transforms to properties.
+	 * For example, transforming a UTC date string into a JavaScript `Date` object.
+	 *
+	 * This method SHOULD be pure.
+	 *
+	 * @param incomingProps The updated properties
+	 * @returns A new object containing the transformed props
+	 */
+	protected onTransformProperties(incomingProps: P): Partial<T> {
+		return incomingProps as Partial<T>;
 	}
 
 	/**
