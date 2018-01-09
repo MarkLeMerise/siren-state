@@ -27,7 +27,7 @@ export default (stateAtom: ISirenStateAtom) =>
 	(lifecycle: IAffordanceLifecycleHooks = defaultLifecycle): IActionCreators => {
 		async function submitForm(form: ISirenForm) {
 			const body = form.serialize();
-			let url = form.href;
+			let url = form.action.href;
 
 			const init: RequestInit = {
 				headers: new Headers({ Accept: SIREN_CONTENT_TYPE }),
@@ -37,7 +37,7 @@ export default (stateAtom: ISirenStateAtom) =>
 			// Though seemingly opinionated, consumers can override this logic through the `onRequest` lifecycle hook
 			if (form.method === EHttpVerb.GET) {
 				if (Object.keys(body).length) {
-					url = `${ form.href }?${ stringify(body) }`;
+					url = `${ form.action.href }?${ stringify(body) }`;
 				}
 			} else {
 				let contentType = form.type;

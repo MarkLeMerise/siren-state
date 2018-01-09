@@ -1,4 +1,4 @@
-export interface IEntityIndexer<T> {
+export interface IEntityIndexer<T = string> {
 	getEntry(key: string): T | undefined;
 	clearEntry(key: string): void;
 	indexEntity(key: string, value: T): void;

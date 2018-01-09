@@ -5,15 +5,10 @@ import verifyAction from '../siren-verify/verifyAction';
 import { ISirenForm } from './ISirenForm';
 import { ISirenFormFieldSet } from './ISirenFormFieldSet';
 
+const hasFileField = (fields: object) => Object.values(fields).some(f => f instanceof File);
+const isNullOrUndefined = (obj: any): obj is null | undefined => obj === null || obj === undefined;
+
 export const URL_FORM_ENCODED_TYPE = 'application/x-www-form-urlencoded';
-
-function isNullOrUndefined(obj: any): obj is null | undefined {
-	return obj === null || obj === undefined;
-}
-
-function hasFileField(fields: object) {
-	return Object.values(fields).some((f) => f instanceof File);
-}
 
 /**
  * Provides a more convenient abstraction for mutating state than plain Siren objects.
@@ -21,13 +16,10 @@ function hasFileField(fields: object) {
  */
 export default class SirenForm<T extends ISirenFormFieldSet = {}> implements ISirenForm<T> {
 	public action: Siren.IAction;
-	public fields: T;
+	public values: T;
 	public href: string;
 	public id = v4();
-	public method: EHttpVerb;
-	public name: string;
 	public response: Response;
-	public type: string;
 
 	constructor(action: Siren.IAction) {
 		if (!verifyAction(action)) {
@@ -35,15 +27,21 @@ export default class SirenForm<T extends ISirenFormFieldSet = {}> implements ISi
 		}
 
 		this.action = action;
-		this.method = isMethodInProtocol(action.method) ? action.method : EHttpVerb.GET;
-		this.name = action.name;
-		this.href = action.href;
-		this.type = action.type || URL_FORM_ENCODED_TYPE;
-		this.fields = (action.fields || []).reduce((fields, f) => {
+		this.values = (action.fields || []).reduce((fields, f) => {
 			fields[f.name] = isNullOrUndefined(f.value) ? null : f.value;
 			return fields;
 		}, {} as any);
 	}
+
+	public get method() {
+		const { action } = this;
+		return isMethodInProtocol(action.method) ? action.method : EHttpVerb.GET;
+	}
+
+	public get type() {
+		return this.action.type || URL_FORM_ENCODED_TYPE;
+	}
+
 
 	/**
 	 * Mutate the fields of this form, merging the `update` record into the existing fields
@@ -51,17 +49,17 @@ export default class SirenForm<T extends ISirenFormFieldSet = {}> implements ISi
 	 */
 	public updateFields(update: Partial<T>) {
 		if (!isEmpty(update)) {
-			this.fields = Object.assign({}, this.fields, update);
+			this.values = Object.assign({}, this.values, update);
 		}
 
-		return this.fields;
+		return this.values;
 	}
 
 	/**
 	 * Serializes the field values using either FormData for File objects, or a POJO otherwise
 	 */
 	public serialize() {
-		const serializedFields = this.onSerialize(this.fields);
+		const serializedFields = this.onSerialize(this.values);
 
 		if (hasFileField(serializedFields)) {
 			return Object.keys(serializedFields).reduce((form, key) => {
@@ -87,14 +85,15 @@ export default class SirenForm<T extends ISirenFormFieldSet = {}> implements ISi
 	}
 
 	/**
-	 * Hook for any custom field transformation for proper serialization
+	 * Hook for any custom value transformation for proper serialization
 	 * For example, this function could properly format a JavaScript Date string for the server.
+	 *
 	 * MAY be overridden by an extending class
 	 *
-	 * @param fields The fields of the form
-	 * @returns The tranformed fields
+	 * @param values The values of the form
+	 * @returns The tranformed values
 	 */
-	protected onSerialize(fields: T): T {
-		return fields;
+	protected onSerialize(values: T): T {
+		return values;
 	}
 }

@@ -5,6 +5,10 @@
   "engines": {
     "node": "8.9.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarkLeMerise/siren-state"
+  },
   "name": "siren-state",
   "version": "0.0.1",
   "main": "index.ts",
@@ -19,7 +23,6 @@
     "lodash.isplainobject": "^4.0.6",
     "lodash.kebabcase": "^4.1.1",
     "lodash.noop": "^3.0.1",
-    "lodash.pickby": "^4.6.0",
     "lodash.uniq": "^4.5.0",
     "loglevel": "^1.6.0",
     "query-string": "^5.0.1",
@@ -29,7 +32,7 @@
     "lint": "tslint --exclude 'src/**/*.d.ts' 'src/**/*.{ts,tsx}'",
     "lint:fix": "tslint --fix --exclude 'src/**/*.d.ts' 'src/**/*.{ts,tsx}'",
     "test": "jest --collectCoverage=true --config=./.jestrc.json",
-    "test:watch": "jest --config ./.jestrc.json --watchAll"
+    "test:watch": "jest --config=./.jestrc.json --watchAll"
   },
   "devDependencies": {
     "@types/chance": "^0.7.35",

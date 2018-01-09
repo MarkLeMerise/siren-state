@@ -39,11 +39,11 @@ describe(SirenForm.name, () => {
 			});
 
 			it('should set the "name" property to be the same as the Siren action', () => {
-				expect(form.name).toBe(action.name);
+				expect(form.action.name).toBe(action.name);
 			});
 
 			it('should set the "href" property to be the same as the Siren action', () => {
-				expect(form.href).toBe(action.href);
+				expect(form.action.href).toBe(action.href);
 			});
 
 			it('should set the "type" property to be the same as the Siren action', () => {
@@ -71,15 +71,15 @@ describe(SirenForm.name, () => {
 			});
 
 			it('should copy a populated value as-is', () => {
-				expect(form.fields.age).toBe(action.fields![0].value);
+				expect(form.values.age).toBe(action.fields![0].value);
 			});
 
 			it('should maintain `null` as a value', () => {
-				expect(form.fields.weight).toBeNull();
+				expect(form.values.weight).toBeNull();
 			});
 
 			it('should set fields without a "value" to `null`', () => {
-				expect(form.fields.color).toBeNull();
+				expect(form.values.color).toBeNull();
 			});
 		});
 
@@ -92,7 +92,7 @@ describe(SirenForm.name, () => {
 			});
 
 			it('should create an empty object as the initial field values', () => {
-				expect(form.fields).toEqual({});
+				expect(form.values).toEqual({});
 			});
 		});
 
@@ -228,7 +228,7 @@ describe(SirenForm.name, () => {
 		});
 
 		it('should set the fields to an empty object initially', () => {
-			expect(form.fields).toEqual({});
+			expect(form.values).toEqual({});
 		});
 
 		describe('With an update', () => {
@@ -250,8 +250,8 @@ describe(SirenForm.name, () => {
 			});
 
 			it('should partially update the form', () => {
-				expect(form.fields.age).toBe(secondUpdate.age);
-				expect(form.fields.name).toBe(firstUpdate.name);
+				expect(form.values.age).toBe(secondUpdate.age);
+				expect(form.values.name).toBe(firstUpdate.name);
 			});
 
 			it('should create a new object', () => {
@@ -261,7 +261,7 @@ describe(SirenForm.name, () => {
 
 		describe('With an empty update', () => {
 			beforeEach(() => {
-				firstUpdateResult = form.fields;
+				firstUpdateResult = form.values;
 				secondUpdateResult = form.updateFields({});
 			});
 

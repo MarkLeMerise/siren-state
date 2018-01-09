@@ -11,6 +11,11 @@ export interface ISirenState {
 	state: ISirenStateAtom;
 }
 
+/**
+ * Generates a "clean" Siren State atom
+ *
+ * @pure
+ */
 export function createSirenStateAtom(): ISirenStateAtom {
 	return {
 		bookkeeping: new EntityIndexer(),
@@ -19,8 +24,17 @@ export function createSirenStateAtom(): ISirenStateAtom {
 	};
 }
 
-export default (stateAtom: ISirenStateAtom = createSirenStateAtom()): ISirenState => ({
-	SirenModel: modelRegistrationFactory(stateAtom),
-	actionCreator: actionCreatorFactory(stateAtom),
-	state: stateAtom
-});
+/**
+ * Generates a new Siren State API based on a default "clean" state
+ *
+ * Passing a pre-created state into the `stateAtom` parameter is useful for testing
+ *
+ * @pure
+ */
+export default function sirenState(stateAtom: ISirenStateAtom = createSirenStateAtom()): ISirenState {
+	return {
+		SirenModel: modelRegistrationFactory(stateAtom),
+		actionCreator: actionCreatorFactory(stateAtom),
+		state: stateAtom
+	};
+}
