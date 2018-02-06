@@ -10,7 +10,7 @@ import { EHttpVerb } from '../../siren-spec/EHttpVerb';
 import mergeEntity from '../../store/mergeEntity';
 import actionCreatorFactory, { MULTIPART_CONTENT_TYPE, SIREN_CONTENT_TYPE } from '../actionCreatorFactory';
 import { IActionCreators } from '../IActionCreators';
-import { IAffordanceLifecycleHooks } from '../IAffordanceLifecycleHooks';
+import { IAffordanceLifecycle } from '../IAffordanceLifecycle';
 import { ISirenForm } from '../ISirenForm';
 import SirenForm from '../SirenForm';
 
@@ -36,7 +36,7 @@ describe(actionCreatorFactory.name, () => {
 	let state: ISirenStateAtom;
 	let actionCreators: IActionCreators;
 	let fetchMock: jest.Mock<typeof fetch>;
-	let lifecycleHooks: IAffordanceLifecycleHooks;
+	let lifecycleHooks: IAffordanceLifecycle;
 
 	const getRequest = (): Request => fetchMock.mock.calls[0][0];
 
@@ -73,7 +73,7 @@ describe(actionCreatorFactory.name, () => {
 			};
 
 			fetchMock = fetchMockFactory.mockResponse(JSON.stringify(body));
-			form.updateFields({ age: chance.natural(), address: chance.address() });
+			form.update({ age: chance.natural(), address: chance.address() });
 
 			// Act
 			return actionCreators.doAction(form);
@@ -191,7 +191,7 @@ describe(actionCreatorFactory.name, () => {
 			};
 
 			fetchMock = fetchMockFactory.mockResponse(JSON.stringify(response));
-			form.updateFields({ age: chance.natural(), address: chance.address() });
+			form.update({ age: chance.natural(), address: chance.address() });
 
 			// Act
 			return actionCreators.doAction(form);
@@ -261,7 +261,7 @@ describe(actionCreatorFactory.name, () => {
 			};
 
 			fetchMock = fetchMockFactory.mockResponse(JSON.stringify(body));
-			form.updateFields({ image: new File(['abc'], 'test.png'), address: chance.address() });
+			form.update({ image: new File(['abc'], 'test.png'), address: chance.address() });
 
 			// Act
 			return actionCreators.doAction(form);

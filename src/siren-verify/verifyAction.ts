@@ -4,7 +4,7 @@
  *
  * https://github.com/kevinswiber/siren#actions-1
  */
-export default (action?: Siren.IAction): action is Siren.IAction => {
+export default <V>(action?: Siren.IAction<V>): action is Siren.IAction<V> => {
 	let isSpecCompliant = false;
 
 	if (action && action.name && action.href) {

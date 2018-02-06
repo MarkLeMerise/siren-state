@@ -1,19 +1,19 @@
-import generateSelfLink from "./generateSelfLink";
 import { kebabCase } from 'lodash';
-import { ISirenModelConstructor } from "../src/registration/ISirenModelConstructor";
-import { ISirenModel } from "../src/model/ISirenModel";
+import { ISirenModel } from '../src/siren-state-core/model/ISirenModel';
+import { ISirenModelConstructor } from '../src/siren-state-core/registration/ISirenModelConstructor';
+import generateSelfLink from './generateSelfLink';
 
 /**
  * Generates a sample Siren subentity POJO based on a concrete definition
  *
  * Useful for testing data flow
  */
-export default function generateEntity(Type: ISirenModelConstructor<ISirenModel>, selfLinkHref?: string) {
+export default function generateEntity<T extends ISirenModel>(Type: ISirenModelConstructor<T>, selfLinkHref?: string) {
 	const sirenClass = Type.sirenClass || kebabCase(Type.name);
 
 	const entity: Siren.ISubEntity = {
-		class: [sirenClass],
 		actions: [],
+		class: [sirenClass],
 		entities: [],
 		links: [generateSelfLink([sirenClass], selfLinkHref)],
 		properties: {},

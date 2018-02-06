@@ -1,10 +1,10 @@
 import { flatMap, head, uniq } from 'lodash';
 import * as log from 'loglevel';
-import { ISirenStateAtom } from '../ISirenStateAtom';
+import isLinkedEntity from '../../siren-verify/isLinkedEntity';
 import { ISirenModel } from '../model/ISirenModel';
 import { SirenModel } from '../model/SirenModel';
 import { ISirenModelConstructor } from '../registration/ISirenModelConstructor';
-import isLinkedEntity from '../siren-verify/isLinkedEntity';
+import { ISirenStateAtom } from './ISirenStateAtom';
 
 function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom, visited: Array<ISirenModelConstructor<ISirenModel>>) {
 	const { store, registry } = stateAtom;
@@ -20,8 +20,7 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
 	);
 
 	if (ModelTypes.length > 1) {
-		log.info('There are multiple registered types matching the incoming Siren classes. '
-			+ 'The first matching type will be used.');
+		log.info('There are multiple registered types matching the incoming Siren classes. The first matching type will be used.');
 	}
 
 	const DomainType = head(ModelTypes);
@@ -43,8 +42,6 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
  *
  * For example, a collection model may want to refresh its references to its `item` subentities, which are found elswhere in the `stateAtom`.
  *
- * This operation immutably creates new entity models regardless of whether they already exist in the `stateAtom`.
- *
  * @param initialEntity The incoming entity
  * @param stateAtom The current global state
  */
@@ -54,6 +51,6 @@ export default function mergeEntity(initialEntity: Siren.IEntity, stateAtom: ISi
 	mergeSingleEntityTree(initialEntity, stateAtom, visitedTypes);
 
 	flatMap(uniq(visitedTypes).map(Type => stateAtom.store.getModelByType(Type)))
-		.map(model => model.onFromEntity(stateAtom))
+		.map(model => model.onDependencyChange(stateAtom))
 		.forEach(model => stateAtom.store.storeModel(model));
 }

@@ -17,5 +17,6 @@
       150
     ],
     "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 150
-}
+    "editor.wordWrapColumn": 150,
+    "typescript.tsdk": "node_modules/typescript/lib"
+  }

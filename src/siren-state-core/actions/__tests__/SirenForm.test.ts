@@ -138,7 +138,7 @@ describe(SirenForm.name, () => {
 					weight: null,
 				};
 
-				form.updateFields(updateRecord);
+				form.update(updateRecord);
 				formData = form.serialize() as FormData;
 			});
 
@@ -205,7 +205,7 @@ describe(SirenForm.name, () => {
 					weight: chance.natural(),
 				};
 				form = new MyForm(action);
-				form.updateFields(updateRecord);
+				form.update(updateRecord);
 			});
 
 			it('should use the output of the lifecycle hook', () => {
@@ -245,8 +245,8 @@ describe(SirenForm.name, () => {
 					age: chance.age(),
 				};
 
-				firstUpdateResult = form.updateFields(firstUpdate);
-				secondUpdateResult = form.updateFields(secondUpdate);
+				firstUpdateResult = form.update(firstUpdate);
+				secondUpdateResult = form.update(secondUpdate);
 			});
 
 			it('should partially update the form', () => {
@@ -262,7 +262,7 @@ describe(SirenForm.name, () => {
 		describe('With an empty update', () => {
 			beforeEach(() => {
 				firstUpdateResult = form.values;
-				secondUpdateResult = form.updateFields({});
+				secondUpdateResult = form.update({});
 			});
 
 			it('should not create a new object', () => {

@@ -1,5 +1,5 @@
-import { ISirenStateAtom } from '../ISirenStateAtom';
 import { ISirenModel } from '../model/ISirenModel';
+import { ISirenStateAtom } from '../state/ISirenStateAtom';
 
 export interface ISirenModelConstructor<T extends ISirenModel> {
 	sirenClass?: string;
