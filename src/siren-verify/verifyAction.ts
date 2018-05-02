@@ -1,6 +1,6 @@
 /**
- * Verifies the required fields of a Siren action against the Siren spec
- * Also serves as a convenient type guard for TypeScript consumers
+ * Verifies the required fields of a Siren action against the Siren spec.
+ * Also serves as a convenient type guard for TypeScript consumers.
  *
  * https://github.com/kevinswiber/siren#actions-1
  */

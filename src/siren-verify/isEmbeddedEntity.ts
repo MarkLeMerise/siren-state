@@ -1,6 +1,6 @@
 /**
- * Determines if an entity is embedded inside another entity
- * Embedded entities MUST have a "rel" property
+ * Determines if an entity is embedded inside another entity.
+ * Embedded entities MUST have a "rel" property.
  *
  * https://github.com/kevinswiber/siren#embedded-representation
  */
