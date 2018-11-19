@@ -1,5 +1,7 @@
-import generateSelfLink from '../../../test-util/generateSelfLink';
-import { ISirenStateAtom } from '../../ISirenStateAtom';
+import generateAction from '../../../../test-util/generateAction';
+import generateEntity from '../../../../test-util/generateEntity';
+import generateLink from '../../../../test-util/generateLink';
+import generateSelfLink from '../../../../test-util/generateSelfLink';
 import { SirenModel } from '../SirenModel';
 
 describe(SirenModel.name, () => {
@@ -9,34 +11,12 @@ describe(SirenModel.name, () => {
 		weightInStone: number;
 	}
 
-	interface ISirenPersonProps {
-		age: number;
-		birthday: string;
-		name: string;
-		weight: {
-			lbs: number;
-			kg: number;
-		};
-	}
-
-	class Person extends SirenModel<IPersonProps, ISirenPersonProps> {
-		public onFromEntity(state?: ISirenStateAtom) {
-			return this;
-		}
-
-		protected onTransformProperties(incoming: Partial<ISirenPersonProps>) {
-			return {
-				age: incoming.age,
-				birthday: incoming.birthday ? new Date(incoming.birthday) : null,
-				weightInStone: incoming.weight!.kg ? incoming.weight!.kg / 6.35029 : 0
-			};
-		}
-	}
+	class Person extends SirenModel<IPersonProps> {}
 
 	describe('Constructing a Person', () => {
 		let person: Person;
 
-		describe('Without properties, links, actions, or entities', () => {
+		describe('Without an entity', () => {
 			beforeEach(() => {
 				person = new Person();
 			});
@@ -58,69 +38,49 @@ describe(SirenModel.name, () => {
 			});
 		});
 
-		describe('With properties', () => {
-			beforeEach(() => {
-				person = new Person({
-					properties: {
-						age: chance.age(),
-						birthday: chance.date().toISOString(),
-						name: chance.name(),
-						weight: {
-							kg: chance.natural({ max: 100 }),
-							lbs: chance.natural({ max: 250 })
-						}
-					}
-				});
-			});
-
-			it('should transform the properties using `onTransformProperties`', () => {
-				expect(person.properties.birthday).toBeInstanceOf(Date);
-				expect(person.properties).not.toHaveProperty('name');
-			});
-		});
-
-		describe('With links, actions, and entities', () => {
+		describe('With a populated entity', () => {
 			let actions: Siren.IAction[];
 			let entities: Siren.ISubEntity[];
 			let links: Siren.ILinkedEntity[];
-
-			beforeEach(() => {
-				actions = [];
-				entities = [];
-				links = [];
-
-				person = new Person({
-					actions,
-					entities,
-					links
-				});
-			});
-
-			it('should save the actions as-is', () => {
-				expect(person.actions).toBe(actions);
-			});
-
-			it('should save the entities as-is', () => {
-				expect(person.entities).toBe(entities);
-			});
-
-			it('should save the links as-is', () => {
-				expect(person.links).toBe(links);
-			});
-		});
-
-		describe('With a self-link', () => {
+			let properties: IPersonProps;
 			let selfLink: Siren.ILinkedEntity;
 
 			beforeEach(() => {
 				selfLink = generateSelfLink();
+				actions = [generateAction()];
+				entities = [generateEntity(Person)];
+				links = [generateLink(), selfLink];
+				properties = {
+					age: chance.age(),
+					birthday: chance.birthday(),
+					weightInStone: chance.natural()
+				};
 
 				person = new Person({
-					links: [selfLink]
+					actions,
+					entities,
+					links,
+					properties
 				});
 			});
 
-			it('should be accessible', () => {
+			it('should save the actions', () => {
+				expect(person.actions).toEqual(actions);
+			});
+
+			it('should save the entities', () => {
+				expect(person.entities).toEqual(entities);
+			});
+
+			it('should save the links', () => {
+				expect(person.links).toEqual(links);
+			});
+
+			it('should save the properties', () => {
+				expect(person.properties).toEqual(properties);
+			});
+
+			it('should expose the self-link', () => {
 				expect(person.selfLinkHref).toBe(selfLink.href);
 			});
 		});

@@ -1,4 +1,4 @@
-import generateSelfLink from '../../../test-util/generateSelfLink';
+import generateSelfLink from '../../../../test-util/generateSelfLink';
 import getSelfLinkHref from '../getSelfLinkHref';
 
 describe(getSelfLinkHref.name, () => {

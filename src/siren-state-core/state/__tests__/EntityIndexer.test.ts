@@ -1,7 +1,7 @@
-import EntityIndexer, { IEntityIndexer } from '../EntityIndexer';
+import EntityIndexer from '../EntityIndexer';
 
 describe(EntityIndexer.name, () => {
-	let indexer: IEntityIndexer<string>;
+	let indexer: EntityIndexer;
 	let key: string;
 	let value: string;
 

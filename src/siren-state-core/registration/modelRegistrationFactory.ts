@@ -1,26 +1,19 @@
 import { kebabCase } from 'lodash';
-import { ISirenStateAtom } from '../ISirenStateAtom';
-import { ISirenModel } from '../model/ISirenModel';
+import { SirenModel } from '../model/SirenModel';
+import { ISirenStateAtom } from '../state/ISirenStateAtom';
+import { ISirenModelConfiguration } from './ISirenModelConfiguration';
 import { ISirenModelConstructor } from './ISirenModelConstructor';
+import { ISirenModelRegistrar } from './ISirenModelRegistrar';
 
-interface ISirenModelConfiguration {
-	sirenClass?: string;
-	subentities?: { [rel: string]: ISirenModelConstructor<ISirenModel> };
-}
+export default (stateAtom: ISirenStateAtom): ISirenModelRegistrar => (config: ISirenModelConfiguration = {}) =>
+	(Type: ISirenModelConstructor<SirenModel>) => {
+		const { registry } = stateAtom;
+		const sirenClass = config.sirenClass || kebabCase(Type.name);
+		const subentities = config.subentities || {};
 
-export type ISirenModelRegistrar = (config?: ISirenModelConfiguration) =>
-	<T extends ISirenModel>(Type: ISirenModelConstructor<T>) => void;
+		stateAtom.registry.registerModel(sirenClass, Type);
+		Type.sirenClass = sirenClass;
 
-export default (stateAtom: ISirenStateAtom): ISirenModelRegistrar =>
-	(config: ISirenModelConfiguration = {}) =>
-		<T extends ISirenModel>(Type: ISirenModelConstructor<T>) => {
-			const { registry } = stateAtom;
-			const sirenClass = config.sirenClass || kebabCase(Type.name);
-			const subentities = config.subentities || {};
-
-			stateAtom.registry.registerModel(sirenClass, Type);
-			Type.sirenClass = sirenClass;
-
-			Object.keys(subentities)
-				.forEach(key => subentities[key] && registry.createDependency(key, Type, subentities[key]));
-		};
+		Object.keys(subentities)
+			.forEach(key => subentities[key] && registry.createDependency(key, Type, subentities[key]));
+	};

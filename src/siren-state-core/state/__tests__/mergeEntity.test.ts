@@ -1,12 +1,12 @@
 jest.mock('loglevel');
 
-import { noop } from 'lodash';
 import * as log from 'loglevel';
-import sirenStateFactory, { ISirenState } from '../../../index';
-import generateEntity from '../../../test-util/generateEntity';
-import generateSelfLink from '../../../test-util/generateSelfLink';
-import { ISirenStateAtom } from '../../ISirenStateAtom';
+import generateEntity from '../../../../test-util/generateEntity';
+import generateSelfLink from '../../../../test-util/generateSelfLink';
+import sirenStateFactory from '../../index';
 import { SirenModel } from '../../model/SirenModel';
+import { ISirenState } from '../ISirenState';
+import { ISirenStateAtom } from '../ISirenStateAtom';
 import mergeEntity from '../mergeEntity';
 
 describe(mergeEntity.name, () => {
@@ -21,7 +21,7 @@ describe(mergeEntity.name, () => {
 	describe('Merging an entity with a single matching Siren class definition', () => {
 		beforeEach(() => {
 			const sirenClass = chance.word();
-			sirenState.SirenModel({ sirenClass })(MySirenModel);
+			sirenState.Sirenify({ sirenClass })(MySirenModel);
 
 			entity = {
 				class: [sirenClass],
@@ -54,8 +54,8 @@ describe(mergeEntity.name, () => {
 		beforeEach(() => {
 			const sirenClass1 = chance.word();
 			const sirenClass2 = chance.word();
-			sirenState.SirenModel({ sirenClass: sirenClass1 })(MySirenModel);
-			sirenState.SirenModel({ sirenClass: sirenClass2 })(MyOtherSirenModel);
+			sirenState.Sirenify({ sirenClass: sirenClass1 })(MySirenModel);
+			sirenState.Sirenify({ sirenClass: sirenClass2 })(MyOtherSirenModel);
 
 			entity = {
 				class: [sirenClass1, sirenClass2],
@@ -114,10 +114,10 @@ describe(mergeEntity.name, () => {
 		let spy: jest.SpyInstance;
 
 		beforeEach(() => {
-			sirenState.SirenModel()(Item);
-			sirenState.SirenModel()(Collection);
-			sirenState.SirenModel()(OtherItem);
-			sirenState.SirenModel({
+			sirenState.Sirenify()(Item);
+			sirenState.Sirenify()(Collection);
+			sirenState.Sirenify()(OtherItem);
+			sirenState.Sirenify({
 				subentities: {
 					[chance.word({ length: 4 })]: Item,
 					[chance.word({ length: 3 })]: OtherItem
@@ -136,7 +136,7 @@ describe(mergeEntity.name, () => {
 				generateEntity(OtherItem)
 			];
 
-			spy = jest.spyOn(customEntityModel, 'onFromEntity');
+			spy = jest.spyOn(customEntityModel, 'fromEntity');
 
 			mergeEntity(collection, sirenState.state);
 		});

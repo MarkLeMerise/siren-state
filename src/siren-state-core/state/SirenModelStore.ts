@@ -1,23 +1,22 @@
-import { ISirenModel } from '../model/ISirenModel';
+import { SirenModel } from '../model/SirenModel';
 import { ISirenModelConstructor } from '../registration/ISirenModelConstructor';
-import { ISirenModelStore } from './ISirenModelStore';
 
 interface IStoredModelMap {
-	[selfLink: string]: ISirenModel;
+	[selfLink: string]: SirenModel;
 }
 
-export class SirenModelStore implements ISirenModelStore {
+export class SirenModelStore {
 	private models: IStoredModelMap = {};
 
-	public getModelByHref<T extends ISirenModel>(href?: string) {
+	public getModelByHref<T extends SirenModel>(href?: string) {
 		return href ? this.models[href] as T : undefined;
 	}
 
-	public getModelByType<T extends ISirenModel>(Type: ISirenModelConstructor<T>) {
+	public getModelByType<T extends SirenModel>(Type: ISirenModelConstructor<T>) {
 		return Object.values(this.models).filter(m => m instanceof Type) as T[];
 	}
 
-	public storeModel<T extends ISirenModel>(model: T) {
+	public storeModel<T extends SirenModel>(model: T) {
 		if (!model.selfLinkHref) {
 			throw new Error('All entities must have a self-link to be stored in the Siren state atom.');
 		}

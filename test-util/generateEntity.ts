@@ -1,5 +1,5 @@
 import { kebabCase } from 'lodash';
-import { ISirenModel } from '../src/siren-state-core/model/ISirenModel';
+import { SirenModel } from '../src/siren-state-core/model/SirenModel';
 import { ISirenModelConstructor } from '../src/siren-state-core/registration/ISirenModelConstructor';
 import generateSelfLink from './generateSelfLink';
 
@@ -8,7 +8,7 @@ import generateSelfLink from './generateSelfLink';
  *
  * Useful for testing data flow
  */
-export default function generateEntity<T extends ISirenModel>(Type: ISirenModelConstructor<T>, selfLinkHref?: string) {
+export default function generateEntity<T extends SirenModel>(Type: ISirenModelConstructor<T>, selfLinkHref?: string) {
 	const sirenClass = Type.sirenClass || kebabCase(Type.name);
 
 	const entity: Siren.ISubEntity = {

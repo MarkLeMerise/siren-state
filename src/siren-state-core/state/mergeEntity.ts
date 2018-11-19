@@ -1,12 +1,11 @@
 import { flatMap, head, uniq } from 'lodash';
 import * as log from 'loglevel';
 import isLinkedEntity from '../../siren-verify/isLinkedEntity';
-import { ISirenModel } from '../model/ISirenModel';
 import { SirenModel } from '../model/SirenModel';
 import { ISirenModelConstructor } from '../registration/ISirenModelConstructor';
 import { ISirenStateAtom } from './ISirenStateAtom';
 
-function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom, visited: Array<ISirenModelConstructor<ISirenModel>>) {
+function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom, visited: Array<ISirenModelConstructor<SirenModel>>) {
 	const { store, registry } = stateAtom;
 
 	// Linked entities must be distinguished from fully-loaded entities so we can't transform them
@@ -20,7 +19,7 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
 	);
 
 	if (ModelTypes.length > 1) {
-		log.info('There are multiple registered types matching the incoming Siren classes. The first matching type will be used.');
+		log.warn('There are multiple registered types matching the incoming Siren classes. The first matching type will be used.');
 	}
 
 	const DomainType = head(ModelTypes);
@@ -46,7 +45,7 @@ function mergeSingleEntityTree(entity: Siren.IEntity, stateAtom: ISirenStateAtom
  * @param stateAtom The current global state
  */
 export default function mergeEntity(initialEntity: Siren.IEntity, stateAtom: ISirenStateAtom) {
-	const visitedTypes: Array<ISirenModelConstructor<ISirenModel>> = [];
+	const visitedTypes: Array<ISirenModelConstructor<SirenModel>> = [];
 
 	mergeSingleEntityTree(initialEntity, stateAtom, visitedTypes);
 

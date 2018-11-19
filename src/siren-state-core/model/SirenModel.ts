@@ -1,31 +1,48 @@
 import { defaults } from 'lodash';
 import { ISirenStateAtom } from '../state/ISirenStateAtom';
 import getSelfLinkHref from '../util/getSelfLinkHref';
-import { ISirenModel } from './ISirenModel';
 
 /**
- * Base class for Siren-based domain models
+ * Base class for Siren-based domain models, exposing Siren primitives and allowing mutation
  *
- * Though it can be used indepently, this class works best when extended with domain-specific information.
+ * Though it can be used directly, this class works best when extended with domain-specific information.
+ * The properties of these models should not be mutated directly, but rather through forms.
  *
- * @template V The allowable protocol methods for actions
- * @template S The signature of the incoming Siren properties
- * @template C The signature of the client-side properties object
+ * @template TProperties The signature of the incoming Siren properties
+ * @template TMethods The allowable protocol methods for actions
  */
-export class SirenModel<V = {}, S = {}, C = S> implements ISirenModel<V, S, C> {
-	public actions: Array<Siren.IAction<V>>;
-	public entities: Array<Siren.ISubEntity<V>>;
-	public links: Siren.ILinkedEntity[];
-	public properties: C;
+export class SirenModel<TProperties = {}, TMethods = {}> {
+	protected entity: Siren.IEntity<TProperties, TMethods>;
 
-	constructor(entity: Siren.IEntity<S>, stateAtom?: ISirenStateAtom) {
+	constructor(entity?: Siren.IEntity<TProperties>, stateAtom?: ISirenStateAtom) {
 		return this.fromEntity(entity, stateAtom);
+	}
+
+	public get actions() {
+		return this.entity.actions;
+	}
+
+	public get entities() {
+		return this.entity.entities;
+	}
+
+	public get links() {
+		return this.entity.links;
+	}
+
+	public get properties() {
+		return this.entity.properties;
 	}
 
 	public get selfLinkHref() {
 		return getSelfLinkHref(this);
 	}
 
+	/**
+	 * Subclasses SHOULD override this method to resolve references to other objects in the graph
+	 *
+	 * @param stateAtom The application state
+	 */
 	public onDependencyChange(stateAtom: ISirenStateAtom) {
 		return this;
 	}
@@ -34,10 +51,12 @@ export class SirenModel<V = {}, S = {}, C = S> implements ISirenModel<V, S, C> {
 	 * Reconile a new entity state into an existing one.
 	 * The `stateAtom` is passed in case the entity wishes to update any references to other entities.
 	 *
-	 * @param stateAtom Global state
+	 * Subclasses MAY override this method to perform customized reconciliation (e.g. property transforms)
+	 *
+	 * @param stateAtom The application state
 	 * @param entity The new entity
 	 */
-	public fromEntity(entity: Siren.IEntity<S>, stateAtom?: ISirenStateAtom) {
+	public fromEntity(entity: Siren.IEntity<TProperties> = {}, stateAtom?: ISirenStateAtom) {
 		let newModel = this;
 		const entityWithDefaults = defaults({}, entity, {
 			actions: [],
@@ -46,11 +65,11 @@ export class SirenModel<V = {}, S = {}, C = S> implements ISirenModel<V, S, C> {
 			properties: {}
 		});
 
+		this.entity = entityWithDefaults;
+
 		if (stateAtom) {
 			newModel = this.onDependencyChange(stateAtom);
 		}
-
-		Object.assign(newModel, entityWithDefaults);
 
 		return newModel;
 	}

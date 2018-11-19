@@ -1,10 +1,10 @@
 /**
  * TypeScript implementation of the Siren hypermedia specification
  *
- * Decribed in [this document](https://github.com/kevinswiber/siren#actions-1)
+ * Described in [this document](https://github.com/kevinswiber/siren#actions-1)
  */
 declare namespace Siren {
-	type ISubEntity<TMethod = {}, TProperties = {}> = ILinkedEntity | IEmbeddedEntity<TMethod, TProperties>;
+	type ISubEntity<TProperties = {}, TMethods = {}> = ILinkedEntity | IEmbeddedEntity<TProperties, TMethods>;
 
 	/**
 	 * Linked entities may appear as
@@ -59,9 +59,10 @@ declare namespace Siren {
 	 *
 	 * [See the specification](https://github.com/kevinswiber/siren#embedded-representation)
 	 *
+	 * @template TMethods The allowed methods for the protocol (e.g. GET, PUT, POST, etc. for HTTP)
 	 * @template TProperties The signature of the "properties" object
 	 */
-	interface IEmbeddedEntity<TMethod = {}, TProperties = {}> extends IEntity<TMethod, TProperties> {
+	interface IEmbeddedEntity<TProperties = {}, TMethods = {}> extends IEntity<TProperties, TMethods> {
 		/**
 		 * Defines the relationship of the sub-entity to its parent,
 		 * per [Web Linking (RFC5988)](http://tools.ietf.org/html/rfc5988)
@@ -79,10 +80,10 @@ declare namespace Siren {
 	 *
 	 * [See the specification](https://github.com/kevinswiber/siren#entities)
 	 *
-	 * @template TMethod The allowed methods for the protocol (e.g. GET, PUT, POST, etc. for HTTP)
+	 * @template TMethods The allowed methods for the protocol (e.g. GET, PUT, POST, etc. for HTTP)
 	 * @template TProperties The optional signature of the "properties" object
 	 */
-	interface IEntity<TMethod = {}, TProperties = {}> {
+	interface IEntity<TProperties = {}, TMethods = {}> {
 		/**
 		 * Describes the nature of an entity based on the current representation.
 		 * Possible values are implementation-dependent and should be documented. Optional.
@@ -117,14 +118,14 @@ declare namespace Siren {
 		 *
 		 * [See the specification](https://github.com/kevinswiber/siren#entities-1)
 		 */
-		entities?: Array<ISubEntity<TMethod>>;
+		entities?: Array<ISubEntity<TMethods>>;
 
 		/**
 		 * A collection of action objects, represented in JSON Siren as an array such as `{ "actions": [{ ... }] }`. Optional.
 		 *
 		 * [See the specification](https://github.com/kevinswiber/siren#actions)
 		 */
-		actions?: Array<IAction<TMethod>>;
+		actions?: Array<IAction<TMethods>>;
 
 		/**
 		 * A collection of items that describe navigational links, distinct from entity relationships.
@@ -144,9 +145,9 @@ declare namespace Siren {
 	 *
 	 * [See the specification](https://github.com/kevinswiber/siren#actions-1)
 	 *
-	 * @template TMethod The allowed methods for the protocol (e.g. GET, PUT, POST, etc. for HTTP)
+	 * @template TMethods The allowed methods for the protocol (e.g. GET, PUT, POST, etc. for HTTP)
 	 */
-	interface IAction<TMethod = {}> {
+	interface IAction<TMethods = {}> {
 		/**
 		 * A string that identifies the action to be performed.
 		 * Action names MUST be unique within the set of actions for an entity.
@@ -172,7 +173,7 @@ declare namespace Siren {
 		 *
 		 * [See the specification](https://github.com/kevinswiber/siren#method)
 		 */
-		method?: TMethod;
+		method?: TMethods;
 
 		/**
 		 * The URI of the action. Required.

@@ -1,8 +1,7 @@
-import { IFormSupplier } from './actionCreatorFactory';
-import { ISirenFormFieldSet } from './ISirenFormFieldSet';
+import { IFormSupplier } from './IFormSupplier';
 
 /**
- * Interface for executing Siren affordances, which are the exposed mechanisms for reading/writing server state.
+ * Interface for executing Siren affordances, the mechanisms for reading & writing state
  */
 export interface IActionCreators {
 	/**

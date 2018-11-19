@@ -1,14 +1,12 @@
 jest.mock('loglevel');
 
 import * as log from 'loglevel';
-import { ISirenModel } from '../../model/ISirenModel';
 import { SirenModel } from '../../model/SirenModel';
 import { SirenModelRegistry } from '../../registration/SirenModelRegistry';
 import { ISirenModelConstructor } from '../ISirenModelConstructor';
-import { ISirenModelRegistry } from '../ISirenModelRegistry';
 
 describe(SirenModelRegistry.name, () => {
-	let registry: ISirenModelRegistry;
+	let registry: SirenModelRegistry;
 
 	beforeEach(() => {
 		registry = new SirenModelRegistry();
@@ -63,7 +61,7 @@ describe(SirenModelRegistry.name, () => {
 		// tslint:disable:max-classes-per-file
 		class Type1 extends SirenModel {}
 		class Type2 extends SirenModel {}
-		let dependents: Array<ISirenModelConstructor<ISirenModel>>;
+		let dependents: Array<ISirenModelConstructor<SirenModel>>;
 
 		describe('And both dependecy & dependent has been registered', () => {
 			beforeEach(() => {

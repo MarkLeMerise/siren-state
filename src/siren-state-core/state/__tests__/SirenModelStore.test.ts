@@ -1,20 +1,17 @@
-import { createSirenStateAtom } from '../../../index';
-import generateSelfLink from '../../../test-util/generateSelfLink';
-import { ISirenStateAtom } from '../../ISirenStateAtom';
-import { ISirenModel } from '../../model/ISirenModel';
+import generateSelfLink from '../../../../test-util/generateSelfLink';
 import { SirenModel } from '../../model/SirenModel';
-import { ISirenModelStore } from '../ISirenModelStore';
+import createSirenStateAtom from '../createSirenStateAtom';
 import { SirenModelStore } from '../SirenModelStore';
 
 describe(SirenModelStore.name, () => {
-	let store: ISirenModelStore;
+	let store: SirenModelStore;
 
 	beforeEach(() => {
 		store = new SirenModelStore();
 	});
 
 	describe('Getting a model by href', () => {
-		let sirenModel: ISirenModel;
+		let sirenModel: SirenModel;
 		let selfLink: Siren.ILinkedEntity;
 
 		beforeEach(() => {
@@ -40,10 +37,10 @@ describe(SirenModelStore.name, () => {
 	});
 
 	describe('Getting a set of models by its type', () => {
-		let sirenModel: ISirenModel;
-		let extendedModel1: ISirenModel;
-		let extendedModel2: ISirenModel;
-		let models: ISirenModel[];
+		let sirenModel: SirenModel;
+		let extendedModel1: ExtendedSirenModel;
+		let extendedModel2: ExtendedSirenModel;
+		let models: SirenModel[];
 
 		class ExtendedSirenModel extends SirenModel {}
 		/* tslint:disable-next-line:max-classes-per-file */
@@ -99,7 +96,7 @@ describe(SirenModelStore.name, () => {
 	});
 
 	describe('Storing a model', () => {
-		let model: ISirenModel;
+		let model: SirenModel;
 		let selfLink: Siren.ILinkedEntity;
 
 		beforeEach(() => {

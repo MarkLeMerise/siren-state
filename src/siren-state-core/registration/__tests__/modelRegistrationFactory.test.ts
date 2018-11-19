@@ -1,7 +1,8 @@
-import { createSirenStateAtom } from '../../../index';
-import { ISirenStateAtom } from '../../ISirenStateAtom';
 import { SirenModel } from '../../model/SirenModel';
-import modelRegistrationFactory, { ISirenModelRegistrar } from '../modelRegistrationFactory';
+import createSirenStateAtom from '../../state/createSirenStateAtom';
+import { ISirenStateAtom } from '../../state/ISirenStateAtom';
+import { ISirenModelRegistrar } from '../ISirenModelRegistrar';
+import modelRegistrationFactory from '../modelRegistrationFactory';
 
 describe(SirenModel.name, () => {
 	let stateAtom: ISirenStateAtom;

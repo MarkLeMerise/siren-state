@@ -26,7 +26,7 @@ The `siren-state` module exposes three primary components for dealing with Siren
 2. [Actions](docs/Actions.md) — Performing Siren actions
 3. [Stores](docs/Stores.md) — Accessing domain models
 
-> 💡 Sometimes the best way is to learn is by example: check out the `examples` directory for concrete implementations of these concepts.
+> 💡 Sometimes the best way to learn is by example: check out the `examples` directory for concrete implementations of these concepts.
 
 ## Developing
 
@@ -50,7 +50,7 @@ yarn test:watch # Run tests continuously while developing
 
 ## Style guide
 
-This project uses TSLint. Run `yarn lint` to see an error report, and `yarn lint:fix` to both the report and fix existing errors.
+This project uses TSLint. Run `yarn lint` to see an error report, and `yarn lint:fix` to report and fix existing errors.
 
 ## Versioning
 
