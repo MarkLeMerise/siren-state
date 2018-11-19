@@ -1,4 +1,4 @@
-import generateSelfLink from '../../../../test-util/generateSelfLink';
+import generateSelfLink from '../../../test-util/generateSelfLink';
 import { SirenModel } from '../../model/SirenModel';
 import createSirenStateAtom from '../createSirenStateAtom';
 import { SirenModelStore } from '../SirenModelStore';

@@ -1,7 +1,7 @@
-import generateAction from '../../../../test-util/generateAction';
-import generateEntity from '../../../../test-util/generateEntity';
-import generateLink from '../../../../test-util/generateLink';
-import generateSelfLink from '../../../../test-util/generateSelfLink';
+import generateAction from '../../../test-util/generateAction';
+import generateEntity from '../../../test-util/generateEntity';
+import generateLink from '../../../test-util/generateLink';
+import generateSelfLink from '../../../test-util/generateSelfLink';
 import { SirenModel } from '../SirenModel';
 
 describe(SirenModel.name, () => {

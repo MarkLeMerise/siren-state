@@ -1,8 +1,8 @@
 jest.mock('loglevel');
 
 import * as log from 'loglevel';
-import generateEntity from '../../../../test-util/generateEntity';
-import generateSelfLink from '../../../../test-util/generateSelfLink';
+import generateEntity from '../../../test-util/generateEntity';
+import generateSelfLink from '../../../test-util/generateSelfLink';
 import sirenStateFactory from '../../index';
 import { SirenModel } from '../../model/SirenModel';
 import { ISirenState } from '../ISirenState';
@@ -146,7 +146,7 @@ describe(mergeEntity.name, () => {
 		});
 
 		it('should replace the reference in the store with the updated one', () => {
-			expect(sirenState.state.store.getModelByHref(customEntityModel.selfLinkHref)).toBe(next);
+			expect(sirenState.state.store.getModelByHref(customEntityModel.selfLinkHref)!.sirenEntity).toEqual(next.sirenEntity);
 		});
 	});
 });

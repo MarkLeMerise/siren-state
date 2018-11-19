@@ -18,6 +18,10 @@ export class SirenModel<TProperties = {}, TMethods = {}> {
 		return this.fromEntity(entity, stateAtom);
 	}
 
+	public get sirenEntity() {
+		return this.entity;
+	}
+
 	public get actions() {
 		return this.entity.actions;
 	}

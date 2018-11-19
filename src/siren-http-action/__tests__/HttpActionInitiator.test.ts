@@ -1,6 +1,6 @@
 jest.mock('loglevel');
 
-import generateAction from '../../../test-util/generateAction';
+import generateAction from '../../test-util/generateAction';
 import { EHttpMethod } from '../EHttpMethod';
 import HttpActionInitiator from '../HttpActionInitiator';
 import SirenHttpForm from '../SirenHttpForm';

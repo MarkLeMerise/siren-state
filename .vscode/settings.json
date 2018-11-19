@@ -1,6 +1,6 @@
 {
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 250,
+  "files.autoSaveDelay": 2000,
   "files.exclude": {
       "**/.git": true,
       "**/.svn": true,
@@ -10,7 +10,7 @@
       "node_modules": true,
       "coverage": true,
       "**/*.map": true,
-      "**/*.js": true
+      "src/**/*.js": true
     },
     "editor.renderWhitespace": "all",
     "files.trimTrailingWhitespace": true,
